@@ -8,20 +8,22 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract StakingTokenTest is Test {
 
     StakingToken stakingToken;
-
-    string public name = "StakingToken";
-    string public symbol = "STK";
-    // address public admin_;
-
+    string name = "StakingToken";
+    string symbol = "STK";
+    address account;
     function setUp() public {
-        // admin_ = vm.addr(1);
+        account = vm.addr(1);
         stakingToken = new StakingToken(name, symbol);
     }
 
-    function testMint() public{
+    function testMintCorrectly() public{
+        vm.startPrank(account);
         uint256 amount_ = 1 ether;
-
+        uint256 balanceBefore = IERC20(address(stakingToken)).balanceOf(account);
         stakingToken.mint(amount_);
+        uint256 balanceAfter = IERC20(address(stakingToken)).balanceOf(account);
+        assert(balanceAfter - balanceBefore == amount_);
+        vm.stopPrank();
     }
 
 
