@@ -10,6 +10,7 @@ contract StakingTokenTest is Test {
     string name = "StakingToken";
     string symbol = "STK";
     address account;
+
     function setUp() public {
         account = vm.addr(1);
         stakingToken = new StakingToken(name, symbol);
@@ -18,9 +19,7 @@ contract StakingTokenTest is Test {
     function testMintCorrectly() public {
         vm.startPrank(account);
         uint256 amount_ = 1 ether;
-        uint256 balanceBefore = IERC20(address(stakingToken)).balanceOf(
-            account
-        );
+        uint256 balanceBefore = IERC20(address(stakingToken)).balanceOf(account);
         stakingToken.mint(amount_);
         uint256 balanceAfter = IERC20(address(stakingToken)).balanceOf(account);
         assert(balanceAfter - balanceBefore == amount_);
