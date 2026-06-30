@@ -16,11 +16,23 @@ contract StakingApp is Ownable {
     // Modifiers
 
     // Constructor
-    constructor (address StakingToken_, address initialOwner) Ownable(initialOwner) {
+    constructor (address StakingToken_, address owner_) Ownable(owner_) {
         StakingToken = StakingToken_;
     }
 
     // Functions
+
+    // Try functions inherited of Ownable
+    function getOwner() external view returns (address) {
+        address v = Ownable.owner();
+        return v;
+    }
+
+    function getOwner2() external view onlyOwner returns (address) {
+        address v = Ownable.owner();
+        return v;
+    }
+
 
 
 
