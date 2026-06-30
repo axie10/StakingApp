@@ -4,7 +4,6 @@ pragma solidity 0.8.35;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract StakingApp is Ownable {
-
     // 1. Stakingtoken address
     // 2. Admin account
 
@@ -16,7 +15,7 @@ contract StakingApp is Ownable {
     // Modifiers
 
     // Constructor
-    constructor (address StakingToken_, address owner_) Ownable(owner_) {
+    constructor(address StakingToken_, address owner_) Ownable(owner_) {
         StakingToken = StakingToken_;
     }
 
@@ -32,11 +31,4 @@ contract StakingApp is Ownable {
         address v = Ownable.owner();
         return v;
     }
-
-
-
-
-
-
-
 }
