@@ -12,13 +12,4 @@ contract StakingToken is ERC20 {
     function mint(uint256 amount_) external {
         _mint(msg.sender, amount_);
     }
-
-    function totalBalance() public returns (uint256) {
-        totalSupply_ = totalSupply();
-        return totalSupply_;
-    }
-
-    function balanceAccount(address account) public view {
-        balanceOf(account);
-    }
 }

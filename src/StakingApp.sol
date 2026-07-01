@@ -16,7 +16,7 @@ contract StakingApp is Ownable, ReentrancyGuard {
     address public StakingToken;
     uint256 public stakingPeriod;
     uint256 public TotalBalanceStaked;
-    uint256 public MaxStakeingAmount;
+    uint256 public MaxStakingAmount;
     uint256 public RewardsPerPeriod;
     mapping(address => uint256) public stakedUserBalance;
     mapping(address => uint256) public elapsePeriod;
@@ -24,10 +24,10 @@ contract StakingApp is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
     // Events
-    event ChangeStakingPeriod(uint256 stakingPeriod);
-    event StakeTokens(address account, uint256 stakingPeriod);
-    event UnStakeTokens(address account, uint256 stakingPeriod);
-    event ReceiveEth(uint256 stakingPeriod);
+    event ChangeStakingPeriod(uint256 stakingPeriodAmount);
+    event StakeTokens(address account, uint256 amount);
+    event UnStakeTokens(address account, uint256 amount);
+    event ReceiveEth(uint256 amount);
 
     // Modifiers
 
@@ -36,12 +36,12 @@ contract StakingApp is Ownable, ReentrancyGuard {
         address StakingToken_,
         address owner_,
         uint256 stakingPeriod_,
-        uint256 maxStakeingAmount_,
+        uint256 maxStakingAmount_,
         uint256 rewardsPerPeriod_
     ) Ownable(owner_) {
         StakingToken = StakingToken_;
         stakingPeriod = stakingPeriod_;
-        MaxStakeingAmount = maxStakeingAmount_;
+        MaxStakingAmount = maxStakingAmount_;
         RewardsPerPeriod = rewardsPerPeriod_;
     }
 
@@ -55,7 +55,7 @@ contract StakingApp is Ownable, ReentrancyGuard {
     // 1. Deposit
     function stake(uint256 _amount) external nonReentrant {
         require(_amount > 0, "the amount must be greater than zero");
-        require(_amount <= MaxStakeingAmount, "the amount must be less than ten");
+        require(_amount <= MaxStakingAmount, "the amount must be less than ten");
         require(stakedUserBalance[msg.sender] == 0, "user already deposit");
         // after transfer token need call approve
         IERC20(StakingToken).safeTransferFrom(msg.sender, address(this), _amount);
@@ -94,23 +94,23 @@ contract StakingApp is Ownable, ReentrancyGuard {
     }
 
     // 4. Funds rewards
-    function fundRewards(uint256 reward) external payable onlyOwner {
-        require(reward > 0, "No hay recompensas pendientes");
-        IERC20(StakingToken).safeTransferFrom(msg.sender, address(this), reward);
-    }
+    // function fundRewards(uint256 reward) external payable onlyOwner {
+    //     require(reward > 0, "No hay recompensas pendientes");
+    //     IERC20(StakingToken).safeTransferFrom(msg.sender, address(this), reward);
+    // }
 
     receive() external payable onlyOwner {
         emit ReceiveEth(msg.value);
     }
 
     // Try functions inherited of Ownable
-    function getOwner() external view returns (address) {
-        address v = Ownable.owner();
-        return v;
-    }
+    // function getOwner() external view returns (address) {
+    //     address v = Ownable.owner();
+    //     return v;
+    // }
 
-    function getOwner2() external view onlyOwner returns (address) {
-        address v = Ownable.owner();
-        return v;
-    }
+    // function getOwner2() external view onlyOwner returns (address) {
+    //     address v = Ownable.owner();
+    //     return v;
+    // }
 }
